@@ -1,0 +1,10 @@
+.new-card{
+    cursor: pointer;
+}
+.new-card:hover{
+    
+    opacity: 50%;
+    transition-property: opacity;
+    transition-duration: .7s;
+    transition-timing-function: linear;
+}
