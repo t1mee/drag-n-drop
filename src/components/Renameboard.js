@@ -1,36 +1,34 @@
 import React, {useState} from 'react';
 import { Button } from 'react-bootstrap';
 
-export const Renameboard = ({BoardContentState, setBoardContentState, title, sideState, setSideState}) => {
+export const Renameboard = ({BoardContentState, setBoardContentState, title, sideState, setSideState, boardId}) => {
     const [renameState, setRenameState] = useState(title)
     const handleRenameBoard = e => {setRenameState(e.target.value)}
     const renameButton = () => {
-        setSideState(title)
+        setSideState(boardId)
     }
     const handleKeyDown = e => {
         if (e.key === 'Enter') {
-                if(BoardContentState.find(b => b.title === renameState)){
-                    alert('Название должно быть уникальным')
-                }else{
+                if(renameState){
                     const boardStateClone = BoardContentState.map(board => {
-                        if(board.title === title){
-                            
-                           return ( board.title === title?{title: renameState, card: board.card}:board)
-                            
+                        if(board.id === boardId){
+                           return ( board.title === title?{title: renameState, id: board.id, card: board.card}:board)
                         }else{
                             return board
-                           
                         }
                         
                 })
                 setBoardContentState(boardStateClone)
+                    
+                }else{
+                alert('Название должно быть уникальным')
             }
             setSideState(null)
         }}
 
             
             
-    if(sideState !== title){
+    if(sideState !== boardId){
         return(
             <Button variant="secondary"
                     onClick={renameButton}>

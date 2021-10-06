@@ -4,15 +4,15 @@ import {Cards} from './Cards'
 import {Button} from 'react-bootstrap';
 import {Renameboard} from './Renameboard';
 
-
 export const Board = ({sideState, setSideState, BoardState, title, CardState, setBoardContentState, BoardContentState}) => {
+
     const deleteBoard = () => {
-        const boardContentClone = BoardContentState.filter( b => b.title !== title)
+        const boardContentClone = BoardContentState.filter( b => b.id !== BoardState.id)
         setBoardContentState(boardContentClone)
     }
     if(CardState){
         return(
-            <div className='m-2 mb-5 shadow mb-5 bg-secondary rounded'>
+            <div className='m-2 mb-5 shadow mb-5 bg-secondary rounded' id={BoardContentState.find(i => i === BoardState).id}>
              <div className='d-flex shadow mb-5 bg-secondary rounded justify-content-between'>
              <div className='d-flex'>
                  <h1  className='mx-4 '>{title}</h1>
@@ -23,6 +23,7 @@ export const Board = ({sideState, setSideState, BoardState, title, CardState, se
                          title={title}
                          sideState={sideState}
                          setSideState={setSideState}
+                         boardId={BoardState.id}
                           />
              </div>
                  
@@ -43,9 +44,8 @@ export const Board = ({sideState, setSideState, BoardState, title, CardState, se
                                     if(i){
                                         return(
                                                 <Cards 
-                                                    name ={i.name}
-                                                    text ={i.text}
-                                                    boardTitle={title}
+                                                    cardState ={i}
+                                                    boardId={BoardState.id}
                                                     BoardContentState={BoardContentState}
                                                     setBoardContentState={setBoardContentState}
                                                 />)
@@ -63,7 +63,7 @@ export const Board = ({sideState, setSideState, BoardState, title, CardState, se
         )
     }else{
         return(
-            <div className='m-2 mb-5 shadow mb-5 bg-secondary rounded'>
+            <div className='m-2 mb-5 shadow mb-5 bg-secondary rounded'  >
              <div className='d-flex shadow mb-5 bg-secondary rounded'>
                  <h1  className='mx-4 '>{title}</h1> 
             <Button variant="secondary">

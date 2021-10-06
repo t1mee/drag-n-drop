@@ -1,33 +1,37 @@
 import React, {useState} from 'react';
 import {Button, InputGroup, FormControl} from 'react-bootstrap';
 import {Addbutton} from './Addbutton';
+import  nextId  from "react-id-generator";
  
 export const Input = ({sideState, setSideState, BoardContentState, setBoardContentState}) => {
     const [valueState, setValueState]  = useState()
     const handleChange = e => {setValueState(e.target.value)}
     let stateClone = [...BoardContentState] 
+    const getBoardId = nextId()
     const addBoard = () => {
-        stateClone = [{title: valueState, card: []}, ...stateClone]
+        stateClone = [{title: valueState, card: [], id: getBoardId}, ...stateClone]
         setBoardContentState(stateClone)
     }
     const handleKeyDown = e => {
         if (e.key === 'Enter') {
-            if(!BoardContentState.find(i =>(i.title ===  valueState? true: false)) && valueState){
+            if(valueState){
                 addBoard()
                 
             }else{
-                alert('значение должно быть уникальным и не может быть пустым')
+                alert('значение и не может быть пустым')
             }
             setSideState(null)
+            setValueState("")
         }
       }
     const handleButtonDown = () => {
-        if(BoardContentState.find(i =>(i.title ===  valueState? false: true)) && valueState){
+        if( valueState){
             addBoard()
             
         }else{
-            alert('значение должно быть уникальным и не может быть пустым')
+            alert('значение не может быть пустым')
         }
+        setValueState("")
         setSideState(null)
     }
 

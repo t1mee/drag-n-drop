@@ -1,19 +1,21 @@
 import React, {useState} from 'react';
-import { Card} from 'react-bootstrap';
-import '../styles/Cards.css'
+import {Card} from 'react-bootstrap';
+import '../styles/Cards.css';
+import  nextId  from "react-id-generator";
 
 export const Cardinput = ({BoardState, setBoardContentState, BoardContentState, sideState, setSideState}) => {
-    const cardSide =   'card ' + BoardState.title
-    const [newCardState, setNewCard] = useState({name: "", text: ""})
+    const getCardId = nextId()
+    const cardSide =   'card ' + BoardState.id
+    const [newCardState, setNewCard] = useState({name: "", text: "", id: ''})
     const addNewCard = e => {
         if (e.key === 'Enter') {
-            if(newCardState.name && newCardState.text && !BoardContentState.find(i => i.card.find( c=> c.name === newCardState.name))){
+            if(newCardState.name && newCardState.text ){
                 const boardStateClone = BoardContentState.map( i =>{ 
-                                                                    if(i.title === BoardState.title){
+                                                                    if(i.id === BoardState.id){
                                                                         if(i.card){
-                                                                            return({title: i.title, card: [...i.card, newCardState]})
+                                                                            return({title: i.title, id: i.id, card: [...i.card, newCardState]})
                                                                         }else{
-                                                                            return({title: i.title, card: [newCardState]})
+                                                                            return({title: i.title, id: i.id, card: [newCardState]})
                                                                         }
                                                                     }else{
                                                                         return i
@@ -24,15 +26,15 @@ export const Cardinput = ({BoardState, setBoardContentState, BoardContentState, 
                 setBoardContentState (boardStateClone)
                 
             }else{
-                alert('название карточки не должно повторяться или быть пустым')
+                alert('поля не могут быть пустым')
             }
-            setNewCard({name: "", text: ""})
+            setNewCard({name: "", text: "", id: ""})
             setSideState(null)
         }
         
     }
     const changeText = ({target:{name, value}}) => {
-        setNewCard (state => ({...state, [name]: value}))
+        setNewCard (state => ({...state, [name]: value, id: getCardId}))
       }
 
     if(sideState !== cardSide){
@@ -66,8 +68,7 @@ export const Cardinput = ({BoardState, setBoardContentState, BoardContentState, 
             <Card 
             className='new-card'
             bg={'light-50'}
-            text={'info'}
-            key={1}      
+            text={'info'}    
                 >
                         <Card.Body>
                         <Card.Title>
